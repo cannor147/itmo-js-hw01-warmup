@@ -9,7 +9,7 @@
  */
 function abProblem(a, b) {
   if (isNaN(a) || isNaN(b)) {
-    throw TypeError("Arguments should have type 'number'.");
+    throw TypeError('Arguments should have type \'number\'.');
   }
   return a + b;
 }
@@ -23,10 +23,10 @@ function abProblem(a, b) {
  */
 function centuryByYearProblem(year) {
   if (isNaN(year)) {
-    throw TypeError("Argument should have type 'number'.");
+    throw TypeError('Argument should have type \'number\'.');
   }
   if (year <= 0) {
-    throw RangeError("Argument should be a non-negative number.");
+    throw RangeError('Argument should be a non-negative number.');
   } else {
     return Math.floor((year - 1)/100) + 1;
   }
@@ -41,14 +41,14 @@ function centuryByYearProblem(year) {
  */
 function colorsProblem(hexColor) {
   if (typeof hexColor !== 'string') {
-    throw TypeError("Argument should have type 'string'.");
+    throw TypeError('Argument should have type \'string\'.');
   }
   if (!/^#?([\da-f]{6})$/.test(hexColor)) {
-    return "(" + hexColor.substr(1).match(/.{1,2}/g).map(function (hex) {
+    return '(' + hexColor.substr(1).match(/.{1,2}/g).map(function (hex) {
       return parseInt(hex, 16)
-    }).join(", ") + ")";
+    }).join(', ') + ')';
   } else {
-    throw RangeError("Argument should be in hex format.");
+    throw RangeError('Argument should be in hex format.');
   }
 }
 
@@ -61,12 +61,12 @@ function colorsProblem(hexColor) {
  */
 function fibonacciProblem(n) {
   if (isNaN(n)) {
-    throw TypeError("Argument should have type 'number'.");
+    throw TypeError('Argument should have type \'number\'.');
   }
   if (n > 1) {
     return fibonacciProblem(n - 1) + fibonacciProblem(n - 2);
   } else if (n < 0) {
-    throw RangeError("Argument should be a non-negative number.");
+    throw RangeError('Argument should be a non-negative number.');
   } else {
     return 1;
   }
@@ -80,12 +80,12 @@ function fibonacciProblem(n) {
  */
 function matrixProblem(matrix) {
   if (!Array.isArray(matrix) || !Array.isArray(matrix[0])) {
-    throw TypeError("Argument should be a 2D array.");
+    throw TypeError('Argument should be a 2D array.');
   }
-  let n = matrix.length;
-  let m = matrix[0].length;
+  const n = matrix.length;
+  const m = matrix[0].length;
 
-  let result = [];
+  const result = [];
   for (let j = 0; j < m; j++) {
     result.push([]);
     for (let i = 0; i < n; i++) {
@@ -105,12 +105,12 @@ function matrixProblem(matrix) {
  */
 function numberSystemProblem(n, targetNs) {
   if (isNaN(n) || isNaN(targetNs)) {
-    throw TypeError("Arguments should have type 'number'.");
+    throw TypeError('Arguments should have type \'number\'.');
   }
   if (targetNs < 2 || targetNs > 37) {
-    throw RangeError("Argument n should be between 2 and 36.")
+    throw RangeError('Argument n should be between 2 and 36.');
   }
-  return n.toString(targetNs)
+  return n.toString(targetNs);
 }
 
 /**
@@ -133,37 +133,43 @@ function phoneProblem(phoneNumber) {
  */
 function smilesProblem(text) {
   if (typeof text !== 'string') {
-    throw TypeError("Argument should have type 'string'.");
+    throw TypeError('Argument should have type \'string\'.');
   }
   return text.match(/:-\)/g).length + text.match(/\(-:/g).length;
 }
 
 /**
- * Определяет победителя в игре "Крестики-нолики"
+ * Определяет победителя в игре 'Крестики-нолики'
  * Тестами гарантируются корректные аргументы.
  * @param {(('x' | 'o')[])[]} field Игровое поле 3x3 завершённой игры
  * @returns {'x' | 'o' | 'draw'} Результат игры
  */
 function ticTacToeProblem(field) {
-  let reversedField = matrixProblem(field);
+  const reversedField = matrixProblem(field);
 
-  let fieldString = "|" + field.map(function (row) {
-    return row.join("");
-  }).join("|") + "|";
-  let reversedFieldString = "|" + reversedField.map(function (row) {
-    return row.join("");
-  }).join("|") + "|";
+  const fieldString = '|' + field.map(function (row) {
+    return row.join('');
+  }).join('|') + '|';
+  const reversedFieldString = '|' + reversedField.map(function (row) {
+    return row.join('');
+  }).join('|') + '|';
 
-  let xWin = fieldString.includes("xxx") || reversedFieldString.includes("xxx");
-  let oWin = fieldString.includes("ooo") || reversedFieldString.includes("ooo");
-  xWin |= /^\|x..\|.x.\|..x\|$/.test(fieldString) || /^\|x..\|.x.\|..x\|$/.test(reversedFieldString);
-  oWin |= /^\|o..\|.o.\|..o\|$/.test(fieldString) || /^\|o..\|.o.\|..o\|$/.test(reversedFieldString);
+  let xWin = fieldString.includes('xxx');
+  xWin |= reversedFieldString.includes('xxx');
+  xWin |= /^\|x..\|.x.\|..x\|$/.test(fieldString);
+  xWin |= /^\|x..\|.x.\|..x\|$/.test(reversedFieldString);
+
+  let oWin = fieldString.includes('ooo');
+  oWin |= reversedFieldString.includes('ooo');
+  oWin |= /^\|o..\|.o.\|..o\|$/.test(fieldString);
+  oWin |= /^\|o..\|.o.\|..o\|$/.test(reversedFieldString);
+
   if (xWin && !oWin) {
-    return "x";
+    return 'x';
   } else if (oWin && !xWin) {
-    return "o";
+    return 'o';
   } else {
-    return "draw";
+    return 'draw';
   }
 }
 
