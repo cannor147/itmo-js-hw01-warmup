@@ -8,7 +8,10 @@
  * @returns {Number} Сумма аргументов
  */
 function abProblem(a, b) {
-  // Ваше решение
+  if (isNaN(a) || isNaN(b)) {
+    throw TypeError("Arguments should have type 'number'.");
+  }
+  return a + b;
 }
 
 /**
@@ -19,7 +22,14 @@ function abProblem(a, b) {
  * @returns {Number} Век, полученный из года
  */
 function centuryByYearProblem(year) {
-  // Ваше решение
+  if (isNaN(year)) {
+    throw TypeError("Argument should have type 'number'.");
+  }
+  if (year <= 0) {
+    throw RangeError("Argument should be a non-negative number.");
+  } else {
+    return Math.floor((year - 1)/100) + 1;
+  }
 }
 
 /**
@@ -30,7 +40,16 @@ function centuryByYearProblem(year) {
  * @returns {String} Цвет в формате RGB, например, '(255, 255, 255)'
  */
 function colorsProblem(hexColor) {
-  // Ваше решение
+  if (typeof hexColor !== 'string') {
+    throw TypeError("Argument should have type 'string'.");
+  }
+  if (!/^#?([\da-f]{6})$/.test(hexColor)) {
+    return "(" + hexColor.substr(1).match(/.{1,2}/g).map(function (hex) {
+      return parseInt(hex, 16)
+    }).join(", ") + ")";
+  } else {
+    throw RangeError("Argument should be in hex format.");
+  }
 }
 
 /**
@@ -41,7 +60,16 @@ function colorsProblem(hexColor) {
  * @returns {Number} Число Фибоначчи, находящееся на n-ой позиции
  */
 function fibonacciProblem(n) {
-  // Ваше решение
+  if (isNaN(n)) {
+    throw TypeError("Argument should have type 'number'.");
+  }
+  if (n > 1) {
+    return fibonacciProblem(n - 1) + fibonacciProblem(n - 2);
+  } else if (n < 0) {
+    throw RangeError("Argument should be a non-negative number.");
+  } else {
+    return 1;
+  }
 }
 
 /**
@@ -51,7 +79,20 @@ function fibonacciProblem(n) {
  * @returns {(Any[])[]} Транспонированная матрица размера NxM
  */
 function matrixProblem(matrix) {
-  // Ваше решение
+  if (!Array.isArray(matrix) || !Array.isArray(matrix[0])) {
+    throw TypeError("Argument should be a 2D array.");
+  }
+  let n = matrix.length;
+  let m = matrix[0].length;
+
+  let result = [];
+  for (let j = 0; j < m; j++) {
+    result.push([]);
+    for (let i = 0; i < n; i++) {
+      result[j].push(matrix[i][j]);
+    }
+  }
+  return result;
 }
 
 /**
@@ -63,7 +104,13 @@ function matrixProblem(matrix) {
  * @returns {String} Число n в системе счисления targetNs
  */
 function numberSystemProblem(n, targetNs) {
-  // Ваше решение
+  if (isNaN(n) || isNaN(targetNs)) {
+    throw TypeError("Arguments should have type 'number'.");
+  }
+  if (targetNs < 2 || targetNs > 37) {
+    throw RangeError("Argument n should be between 2 and 36.")
+  }
+  return n.toString(targetNs)
 }
 
 /**
@@ -72,7 +119,10 @@ function numberSystemProblem(n, targetNs) {
  * @returns {Boolean} Если соответствует формату, то true, а иначе false
  */
 function phoneProblem(phoneNumber) {
-  // Ваше решение
+  if (typeof phoneNumber !== 'string') {
+    return false;
+  }
+  return /^8-800-(\d{3})-(\d{2})-(\d{2})$/.test(phoneNumber);
 }
 
 /**
@@ -82,7 +132,10 @@ function phoneProblem(phoneNumber) {
  * @returns {Number} Количество улыбающихся смайликов в строке
  */
 function smilesProblem(text) {
-  // Ваше решение
+  if (typeof text !== 'string') {
+    throw TypeError("Argument should have type 'string'.");
+  }
+  return text.match(/:-\)/g).length + text.match(/\(-:/g).length;
 }
 
 /**
@@ -92,7 +145,26 @@ function smilesProblem(text) {
  * @returns {'x' | 'o' | 'draw'} Результат игры
  */
 function ticTacToeProblem(field) {
-  // Ваше решение
+  let reversedField = matrixProblem(field);
+
+  let fieldString = "|" + field.map(function (row) {
+    return row.join("");
+  }).join("|") + "|";
+  let reversedFieldString = "|" + reversedField.map(function (row) {
+    return row.join("");
+  }).join("|") + "|";
+
+  let xWin = fieldString.includes("xxx") || reversedFieldString.includes("xxx");
+  let oWin = fieldString.includes("ooo") || reversedFieldString.includes("ooo");
+  xWin |= /^\|x..\|.x.\|..x\|$/.test(fieldString) || /^\|x..\|.x.\|..x\|$/.test(reversedFieldString);
+  oWin |= /^\|o..\|.o.\|..o\|$/.test(fieldString) || /^\|o..\|.o.\|..o\|$/.test(reversedFieldString);
+  if (xWin && !oWin) {
+    return "x";
+  } else if (oWin && !xWin) {
+    return "o";
+  } else {
+    return "draw";
+  }
 }
 
 module.exports = {
