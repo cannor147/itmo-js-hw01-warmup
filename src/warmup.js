@@ -135,7 +135,9 @@ function smilesProblem(text) {
   if (typeof text !== 'string') {
     throw TypeError('Argument should have type \'string\'.');
   }
-  return text.match(/:-\)/g).length + text.match(/\(-:/g).length;
+  const smileCount = text.match(/:-\)/g) === null ? 0 : text.match(/:-\)/g).length ;
+  const reversedSmileCount = text.match(/\(-:/g) === null ? 0 : text.match(/\(-:/g).length ;
+  return smileCount + reversedSmileCount;
 }
 
 /**
