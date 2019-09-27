@@ -9,8 +9,9 @@
  */
 function abProblem(a, b) {
   if (isNaN(a) || isNaN(b)) {
-    throw TypeError('Arguments should have type \'number\'.');
+    throw TypeError("Arguments should have type 'number'.");
   }
+
   return a + b;
 }
 
@@ -23,12 +24,13 @@ function abProblem(a, b) {
  */
 function centuryByYearProblem(year) {
   if (isNaN(year)) {
-    throw TypeError('Argument should have type \'number\'.');
+    throw TypeError("Argument should have type 'number'.");
   }
+
   if (year <= 0) {
     throw RangeError('Argument should be a non-negative number.');
   } else {
-    return Math.floor((year - 1)/100) + 1;
+    return Math.floor((year - 1) / 100) + 1;
   }
 }
 
@@ -41,12 +43,21 @@ function centuryByYearProblem(year) {
  */
 function colorsProblem(hexColor) {
   if (typeof hexColor !== 'string') {
-    throw TypeError('Argument should have type \'string\'.');
+    throw TypeError("Argument should have type 'string'.");
   }
+
   if (!/^#?([\da-f]{6})$/.test(hexColor)) {
-    return '(' + hexColor.substr(1).match(/.{1,2}/g).map(function (hex) {
-      return parseInt(hex, 16)
-    }).join(', ') + ')';
+    return (
+      '(' +
+      hexColor
+        .substr(1)
+        .match(/.{1,2}/g)
+        .map(function(hex) {
+          return parseInt(hex, 16);
+        })
+        .join(', ') +
+      ')'
+    );
   } else {
     throw RangeError('Argument should be in hex format.');
   }
@@ -61,14 +72,18 @@ function colorsProblem(hexColor) {
  */
 function fibonacciProblem(n) {
   if (isNaN(n)) {
-    throw TypeError('Argument should have type \'number\'.');
+    throw TypeError("Argument should have type 'number'.");
   }
+  if (n - Math.floor(n) !== 0) {
+    throw TypeError('Argument should be an integer.');
+  }
+
   if (n > 1) {
     return fibonacciProblem(n - 1) + fibonacciProblem(n - 2);
-  } else if (n < 0) {
-    throw RangeError('Argument should be a non-negative number.');
-  } else {
+  } else if (n >= 0) {
     return 1;
+  } else {
+    throw RangeError('Argument should be a non-negative number.');
   }
 }
 
@@ -82,9 +97,9 @@ function matrixProblem(matrix) {
   if (!Array.isArray(matrix) || !Array.isArray(matrix[0])) {
     throw TypeError('Argument should be a 2D array.');
   }
+
   const n = matrix.length;
   const m = matrix[0].length;
-
   const result = [];
   for (let j = 0; j < m; j++) {
     result.push([]);
@@ -92,6 +107,7 @@ function matrixProblem(matrix) {
       result[j].push(matrix[i][j]);
     }
   }
+
   return result;
 }
 
@@ -105,23 +121,25 @@ function matrixProblem(matrix) {
  */
 function numberSystemProblem(n, targetNs) {
   if (isNaN(n) || isNaN(targetNs)) {
-    throw TypeError('Arguments should have type \'number\'.');
+    throw TypeError("Arguments should have type 'number'.");
   }
   if (targetNs < 2 || targetNs > 37) {
     throw RangeError('Argument n should be between 2 and 36.');
   }
+
   return n.toString(targetNs);
 }
 
 /**
  * Проверяет соответствие телефонного номера формату
- * @param {String} phoneNumber Номер телефона в формате '8–800–xxx–xx–xx'
+ * @param {String} phoneNumber Номер телефона в формате "8–800–xxx–xx–xx"
  * @returns {Boolean} Если соответствует формату, то true, а иначе false
  */
 function phoneProblem(phoneNumber) {
   if (typeof phoneNumber !== 'string') {
     return false;
   }
+
   return /^8-800-(\d{3})-(\d{2})-(\d{2})$/.test(phoneNumber);
 }
 
@@ -133,11 +151,10 @@ function phoneProblem(phoneNumber) {
  */
 function smilesProblem(text) {
   if (typeof text !== 'string') {
-    throw TypeError('Argument should have type \'string\'.');
+    throw TypeError("Argument should have type 'string'.");
   }
-  const smileCount = text.match(/:-\)/g) === null ? 0 : text.match(/:-\)/g).length ;
-  const reversedSmileCount = text.match(/\(-:/g) === null ? 0 : text.match(/\(-:/g).length ;
-  return smileCount + reversedSmileCount;
+
+  return (text.match(/(:-\))|(\(-:)/g) || []).length;
 }
 
 /**
@@ -148,23 +165,21 @@ function smilesProblem(text) {
  */
 function ticTacToeProblem(field) {
   const reversedField = matrixProblem(field);
+  const func = row => row.join('');
+  const fieldLine = '|' + field.map(func).join('|') + '|';
+  const reversedFieldLine = '|' + reversedField.map(func).join('|') + '|';
 
-  const fieldString = '|' + field.map(function (row) {
-    return row.join('');
-  }).join('|') + '|';
-  const reversedFieldString = '|' + reversedField.map(function (row) {
-    return row.join('');
-  }).join('|') + '|';
+  const xDiagonal = /^\|x..\|.x.\|..x\|$/;
+  let xWin = fieldLine.includes('xxx');
+  xWin |= reversedFieldLine.includes('xxx');
+  xWin |= xDiagonal.test(fieldLine);
+  xWin |= xDiagonal.test(reversedFieldLine);
 
-  let xWin = fieldString.includes('xxx');
-  xWin |= reversedFieldString.includes('xxx');
-  xWin |= /^\|x..\|.x.\|..x\|$/.test(fieldString);
-  xWin |= /^\|x..\|.x.\|..x\|$/.test(reversedFieldString);
-
-  let oWin = fieldString.includes('ooo');
-  oWin |= reversedFieldString.includes('ooo');
-  oWin |= /^\|o..\|.o.\|..o\|$/.test(fieldString);
-  oWin |= /^\|o..\|.o.\|..o\|$/.test(reversedFieldString);
+  const oDiagonal = /^\|o..\|.o.\|..o\|$/;
+  let oWin = fieldLine.includes('ooo');
+  oWin |= reversedFieldLine.includes('ooo');
+  oWin |= oDiagonal.test(fieldLine);
+  oWin |= oDiagonal.test(reversedFieldLine);
 
   if (xWin && !oWin) {
     return 'x';
