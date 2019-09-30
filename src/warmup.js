@@ -8,8 +8,11 @@
  * @returns {Number} Сумма аргументов
  */
 function abProblem(a, b) {
-  if (isNaN(a) || isNaN(b)) {
+  if (typeof a !== 'number' || typeof b !== 'number') {
     throw TypeError("Arguments should have type 'number'.");
+  }
+  if (!Number.isInteger(a) || !Number.isInteger(b)) {
+    throw RangeError("Each argument should be an integer.");
   }
 
   return a + b;
@@ -23,14 +26,14 @@ function abProblem(a, b) {
  * @returns {Number} Век, полученный из года
  */
 function centuryByYearProblem(year) {
-  if (isNaN(year)) {
+  if (typeof year !== 'number') {
     throw TypeError("Argument should have type 'number'.");
   }
 
-  if (year <= 0) {
-    throw RangeError('Argument should be a non-negative number.');
+  if (!Number.isInteger(year) || year <= 0) {
+    throw RangeError('Argument should be a non-negative integer.');
   } else {
-    return Math.floor((year - 1) / 100) + 1;
+    return Math.ceil(year / 100);
   }
 }
 
@@ -46,7 +49,7 @@ function colorsProblem(hexColor) {
     throw TypeError("Argument should have type 'string'.");
   }
 
-  if (!/^#?([\da-f]{6})$/.test(hexColor)) {
+  if (!/^#?([\da-f]{6})$/i.test(hexColor)) {
     return (
       '(' +
       hexColor
@@ -71,19 +74,17 @@ function colorsProblem(hexColor) {
  * @returns {Number} Число Фибоначчи, находящееся на n-ой позиции
  */
 function fibonacciProblem(n) {
-  if (isNaN(n)) {
+  if (typeof n !== 'number') {
     throw TypeError("Argument should have type 'number'.");
   }
-  if (n - Math.floor(n) !== 0) {
-    throw TypeError('Argument should be an integer.');
+  if (!Number.isInteger(n) || n <= 0) {
+    throw RangeError('Argument should be a positive integer.');
   }
 
-  if (n > 1) {
-    return fibonacciProblem(n - 1) + fibonacciProblem(n - 2);
-  } else if (n >= 0) {
-    return 1;
+  if (n <= 2) {
+    return n;
   } else {
-    throw RangeError('Argument should be a non-negative number.');
+    return fibonacciProblem(n - 1) + fibonacciProblem(n - 2);
   }
 }
 
@@ -94,12 +95,17 @@ function fibonacciProblem(n) {
  * @returns {(Any[])[]} Транспонированная матрица размера NxM
  */
 function matrixProblem(matrix) {
-  if (!Array.isArray(matrix) || !Array.isArray(matrix[0])) {
+  if (!Array.isArray(matrix) || !Array.isArray(matrix[0]) || matrix.length === 0) {
     throw TypeError('Argument should be a 2D array.');
   }
 
   const n = matrix.length;
   const m = matrix[0].length;
+
+  if (!matrix.every(row => Array.isArray(row) && row.length === m)) {
+    throw TypeError('Argument should be a 2D array.');
+  }
+
   const result = [];
   for (let j = 0; j < m; j++) {
     result.push([]);
@@ -120,11 +126,11 @@ function matrixProblem(matrix) {
  * @returns {String} Число n в системе счисления targetNs
  */
 function numberSystemProblem(n, targetNs) {
-  if (isNaN(n) || isNaN(targetNs)) {
+  if (typeof n !== 'number' || typeof targetNs !== 'number') {
     throw TypeError("Arguments should have type 'number'.");
   }
-  if (targetNs < 2 || targetNs > 37) {
-    throw RangeError('Argument n should be between 2 and 36.');
+  if (!Number.isInteger(targetNs) || targetNs < 2 || targetNs > 37) {
+    throw RangeError('Argument n should be an integer between 2 and 36.');
   }
 
   return n.toString(targetNs);
@@ -132,12 +138,12 @@ function numberSystemProblem(n, targetNs) {
 
 /**
  * Проверяет соответствие телефонного номера формату
- * @param {String} phoneNumber Номер телефона в формате "8–800–xxx–xx–xx"
+ * @param {String} phoneNumber Номер телефона в формате '8–800–xxx–xx–xx'
  * @returns {Boolean} Если соответствует формату, то true, а иначе false
  */
 function phoneProblem(phoneNumber) {
   if (typeof phoneNumber !== 'string') {
-    return false;
+    throw TypeError("Arguments should have type 'string'.");
   }
 
   return /^8-800-(\d{3})-(\d{2})-(\d{2})$/.test(phoneNumber);
@@ -158,7 +164,7 @@ function smilesProblem(text) {
 }
 
 /**
- * Определяет победителя в игре 'Крестики-нолики'
+ * Определяет победителя в игре "Крестики-нолики"
  * Тестами гарантируются корректные аргументы.
  * @param {(('x' | 'o')[])[]} field Игровое поле 3x3 завершённой игры
  * @returns {'x' | 'o' | 'draw'} Результат игры
