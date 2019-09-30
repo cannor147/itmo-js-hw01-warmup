@@ -31,7 +31,7 @@ function centuryByYearProblem(year) {
   }
 
   if (!Number.isInteger(year)) {
-    throw RangeError('Argument should be an integer.');
+    throw TypeError('Argument should be an integer.');
   } else if (year < 0) {
     throw RangeError('Argument should be a non-negative integer.');
   } else {
@@ -83,17 +83,17 @@ function fibonacciProblem(n) {
     throw TypeError("Argument should have type 'number'.");
   }
   if (!Number.isInteger(n)) {
-    throw RangeError('Argument should be an integer.');
+    throw TypeError('Argument should be an integer.');
   }
   if (n <= 0) {
     throw RangeError('Argument should be a positive integer.');
   }
 
-  if (n <= 2) {
-    return n;
-  } else {
-    return fibonacciProblem(n - 1) + fibonacciProblem(n - 2);
+  const sequence = [1, 1];
+  for (let i = 2; i <= n; i++) {
+    sequence.push(sequence[i - 1] + sequence[i - 2]);
   }
+  return sequence[n];
 }
 
 /**
@@ -140,7 +140,7 @@ function numberSystemProblem(n, targetNs) {
   if (!Number.isInteger(targetNs)) {
     throw TypeError('Argument n should be an integer.');
   }
-  if (targetNs < 2 || targetNs > 37) {
+  if (targetNs < 2 || targetNs > 36) {
     throw RangeError('Argument n should be an integer between 2 and 36.');
   }
 
