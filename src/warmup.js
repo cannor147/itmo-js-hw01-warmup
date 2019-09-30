@@ -12,7 +12,7 @@ function abProblem(a, b) {
     throw TypeError("Arguments should have type 'number'.");
   }
   if (!Number.isInteger(a) || !Number.isInteger(b)) {
-    throw RangeError('Each argument should be an integer.');
+    throw TypeError('Each argument should be an integer.');
   }
 
   return a + b;
@@ -30,7 +30,9 @@ function centuryByYearProblem(year) {
     throw TypeError("Argument should have type 'number'.");
   }
 
-  if (!Number.isInteger(year) || year < 0) {
+  if (!Number.isInteger(year)) {
+    throw RangeError('Argument should be an integer.');
+  } else if (year < 0) {
     throw RangeError('Argument should be a non-negative integer.');
   } else {
     return Math.ceil(year / 100);
@@ -50,7 +52,7 @@ function colorsProblem(hexColor) {
   }
 
   if (/^#?([\da-fA-F]{3})$/.test(hexColor)) {
-    hexColor = hexColor.replace(/([\da-fA-F])/, '$1$1');
+    hexColor = hexColor.replace(/([\da-fA-F])/g, '$1$1');
   }
   if (/^#?([\da-fA-F]{6})$/.test(hexColor)) {
     return (
@@ -80,7 +82,10 @@ function fibonacciProblem(n) {
   if (typeof n !== 'number') {
     throw TypeError("Argument should have type 'number'.");
   }
-  if (!Number.isInteger(n) || n <= 0) {
+  if (!Number.isInteger(n)) {
+    throw RangeError('Argument should be an integer.');
+  }
+  if (n <= 0) {
     throw RangeError('Argument should be a positive integer.');
   }
 
@@ -132,7 +137,10 @@ function numberSystemProblem(n, targetNs) {
   if (typeof n !== 'number' || typeof targetNs !== 'number') {
     throw TypeError("Arguments should have type 'number'.");
   }
-  if (!Number.isInteger(targetNs) || targetNs < 2 || targetNs > 37) {
+  if (!Number.isInteger(targetNs)) {
+    throw TypeError('Argument n should be an integer.');
+  }
+  if (targetNs < 2 || targetNs > 37) {
     throw RangeError('Argument n should be an integer between 2 and 36.');
   }
 
