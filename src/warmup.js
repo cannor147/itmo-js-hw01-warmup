@@ -12,7 +12,7 @@ function abProblem(a, b) {
     throw TypeError("Arguments should have type 'number'.");
   }
   if (!Number.isInteger(a) || !Number.isInteger(b)) {
-    throw RangeError("Each argument should be an integer.");
+    throw RangeError('Each argument should be an integer.');
   }
 
   return a + b;
@@ -30,7 +30,7 @@ function centuryByYearProblem(year) {
     throw TypeError("Argument should have type 'number'.");
   }
 
-  if (!Number.isInteger(year) || year <= 0) {
+  if (!Number.isInteger(year) || year < 0) {
     throw RangeError('Argument should be a non-negative integer.');
   } else {
     return Math.ceil(year / 100);
@@ -49,6 +49,9 @@ function colorsProblem(hexColor) {
     throw TypeError("Argument should have type 'string'.");
   }
 
+  if (/^#?([\da-fA-F]{3})$/.test(hexColor)) {
+    hexColor = hexColor.replace(/[\da-fA-F]/, '$1$1');
+  }
   if (/^#?([\da-fA-F]{6})$/.test(hexColor)) {
     return (
       '(' +
@@ -160,7 +163,7 @@ function smilesProblem(text) {
     throw TypeError("Argument should have type 'string'.");
   }
 
-  return (text.match(/(:-\))|(\(-:)/g) || []).length;
+  return (text.match(/(:-\))|(\(-(?=:))/g) || []).length;
 }
 
 /**
