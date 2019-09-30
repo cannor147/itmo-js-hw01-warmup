@@ -50,7 +50,7 @@ function colorsProblem(hexColor) {
   }
 
   if (/^#?([\da-fA-F]{3})$/.test(hexColor)) {
-    hexColor = hexColor.replace(/[\da-fA-F]/, '$1$1');
+    hexColor = hexColor.replace(/([\da-fA-F])/, '$1$1');
   }
   if (/^#?([\da-fA-F]{6})$/.test(hexColor)) {
     return (
