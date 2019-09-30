@@ -49,7 +49,7 @@ function colorsProblem(hexColor) {
     throw TypeError("Argument should have type 'string'.");
   }
 
-  if (!/^#?([\da-fA-F]{6})$/.test(hexColor)) {
+  if (/^#?([\da-fA-F]{6})$/.test(hexColor)) {
     return (
       '(' +
       hexColor
