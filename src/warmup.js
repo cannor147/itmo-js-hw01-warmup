@@ -51,13 +51,14 @@ function colorsProblem(hexColor) {
     throw TypeError("Argument should have type 'string'.");
   }
 
-  if (/^#?([\da-fA-F]{3})$/.test(hexColor)) {
-    hexColor = hexColor.replace(/([\da-fA-F])/g, '$1$1');
+  let hexColorUniform = hexColor;
+  if (/^#?([\da-fA-F]{3})$/.test(hexColorUniform)) {
+    hexColorUniform = hexColorUniform.replace(/([\da-fA-F])/g, '$1$1');
   }
-  if (/^#?([\da-fA-F]{6})$/.test(hexColor)) {
+  if (/^#?([\da-fA-F]{6})$/.test(hexColorUniform)) {
     return (
       '(' +
-      hexColor
+      hexColorUniform
         .substr(1)
         .match(/.{1,2}/g)
         .map(function(hex) {
