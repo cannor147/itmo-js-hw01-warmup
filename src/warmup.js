@@ -188,15 +188,15 @@ function ticTacToeProblem(field) {
 
   const xDiagonal = /^\|x..\|.x.\|..x\|$/;
   let xWin = fieldLine.includes('xxx');
-  xWin |= reversedFieldLine.includes('xxx');
-  xWin |= xDiagonal.test(fieldLine);
-  xWin |= xDiagonal.test(reversedFieldLine);
+  xWin = xWin || reversedFieldLine.includes('xxx');
+  xWin = xWin || xDiagonal.test(fieldLine);
+  xWin = xWin || xDiagonal.test(reversedFieldLine);
 
   const oDiagonal = /^\|o..\|.o.\|..o\|$/;
   let oWin = fieldLine.includes('ooo');
-  oWin |= reversedFieldLine.includes('ooo');
-  oWin |= oDiagonal.test(fieldLine);
-  oWin |= oDiagonal.test(reversedFieldLine);
+  oWin = oWin || reversedFieldLine.includes('ooo');
+  oWin = oWin || oDiagonal.test(fieldLine);
+  oWin = oWin || oDiagonal.test(reversedFieldLine);
 
   if (xWin && !oWin) {
     return 'x';
